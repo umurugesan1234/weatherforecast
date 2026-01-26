@@ -35,7 +35,7 @@ yarn.lock
 dist/
 build/
 
-# Terraform
+# Terraform - specific files to ignore
 .terraform/
 .terraform.lock.hcl
 terraform.tfstate
@@ -44,10 +44,9 @@ terraform.tfstate.backup
 *.tfstate
 .terraformrc
 terraform.rc
-
-# Terraform executables - NEVER COMMIT THESE
-terraform.exe
-terraform
+tfplan
+**/terraform.exe
+**/terraform
 terraform.d/
 
 # Azure CLI
