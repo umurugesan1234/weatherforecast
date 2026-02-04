@@ -69,7 +69,7 @@ The workflow deploys to:
 
 After deployment, you can:
 - View deployment status in GitHub Actions tab
-- Access your live app at: https://weatherforecast-webapp-vwe3fend.azurewebsites.net
+- Access your live app at: https://weatherforecast-prod-webapp-vwe3fend.azurewebsites.net
 - Monitor app performance in Azure Portal → Application Insights
 
 ## 🛠️ Customization
