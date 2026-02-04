@@ -21,22 +21,24 @@ provider "azurerm" {
 
 # Create a resource group
 resource "azurerm_resource_group" "appgrp" {
-  name     = "rg-website"
-  location = "Central India"
+  name     = var.resource_group_name
+  location = var.location
+  tags     = var.tags
 }
 
 # Create an App Service Plan
 resource "azurerm_service_plan" "weatherforecast_plan" {
-  name                = "weatherforecast-appserviceplan"
+  name                = "${var.app_name_prefix}-${var.environment}-appserviceplan"
   resource_group_name = azurerm_resource_group.appgrp.name
   location            = azurerm_resource_group.appgrp.location
   os_type             = "Linux"
-  sku_name            = "S1" # Standard SKU
+  sku_name            = var.sku_name
+  tags                = var.tags
 }
 
 # Create the web app
 resource "azurerm_linux_web_app" "weatherforecast_app" {
-  name                = "weatherforecast-webapp-${random_string.unique.result}"
+  name                = "${var.app_name_prefix}-${var.environment}-webapp-${random_string.unique.result}"
   resource_group_name = azurerm_resource_group.appgrp.name
   location            = azurerm_resource_group.appgrp.location
   service_plan_id     = azurerm_service_plan.weatherforecast_plan.id
@@ -46,7 +48,7 @@ resource "azurerm_linux_web_app" "weatherforecast_app" {
     app_command_line = ""
     
     application_stack {
-      node_version = "18-lts"
+      node_version = var.node_version
     }
   }
 
@@ -71,10 +73,7 @@ resource "azurerm_linux_web_app" "weatherforecast_app" {
     }
   }
 
-  tags = {
-    Environment = "Production"
-    Project     = "WeatherForecast"
-  }
+  tags = var.tags
 }
 
 # Generate a random string to make app name unique
@@ -86,15 +85,11 @@ resource "random_string" "unique" {
 
 # Create Application Insights for monitoring
 resource "azurerm_application_insights" "weatherforecast_insights" {
-  name                = "weatherforecast-appinsights"
+  name                = "${var.app_name_prefix}-${var.environment}-appinsights"
   location            = azurerm_resource_group.appgrp.location
   resource_group_name = azurerm_resource_group.appgrp.name
   application_type    = "web"
-
-  tags = {
-    Environment = "Production"
-    Project     = "WeatherForecast"
-  }
+  tags                = var.tags
 }
 
 # Configure App Insights connection string in the web app
@@ -106,7 +101,7 @@ resource "azurerm_linux_web_app_slot" "staging" {
     always_on = false
     
     application_stack {
-      node_version = "18-lts"
+      node_version = var.node_version
     }
   }
 
@@ -116,8 +111,7 @@ resource "azurerm_linux_web_app_slot" "staging" {
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.weatherforecast_insights.connection_string
   }
 
-  tags = {
-    Environment = "Staging"
-    Project     = "WeatherForecast"
-  }
+  tags = merge(var.tags, {
+    Slot = "staging"
+  })
 }
