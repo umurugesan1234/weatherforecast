@@ -42,8 +42,8 @@ Create this secret with your Azure service principal credentials:
 ### Step 2: Verify Deployment Target
 
 The workflow is configured to deploy to:
-- **App Name**: `weatherforecast-webapp-vwe3fend`
-- **URL**: `https://weatherforecast-webapp-vwe3fend.azurewebsites.net`
+- **App Name**: `weatherforecast-prod-webapp-vwe3fend`
+- **URL**: `https://weatherforecast-prod-webapp-vwe3fend.azurewebsites.net`
 
 ### Step 3: Trigger Deployment
 
