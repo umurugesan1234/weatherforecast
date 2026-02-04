@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: weatherforecast-webapp-vwe3fend
+  AZURE_WEBAPP_NAME: weatherforecast-prod-webapp-vwe3fend
   NODE_VERSION: '18.x'
 
 jobs:
