@@ -44,7 +44,7 @@ variable "tags" {
   type        = map(string)
   default = {
     Environment = "Production"
-    Project     = "WeatherForecast"
+    Project     = "WeatherForecastApp"
     ManagedBy   = "Terraform"
   }
 }
