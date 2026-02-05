@@ -34,3 +34,13 @@ output "application_insights_app_id" {
   value       = azurerm_application_insights.weatherforecast_insights.app_id
   description = "Application Insights Application ID"
 }
+
+output "log_analytics_workspace_id" {
+  value       = azurerm_log_analytics_workspace.main.id
+  description = "Log Analytics Workspace ID"
+}
+
+output "log_analytics_workspace_name" {
+  value       = azurerm_log_analytics_workspace.main.name
+  description = "Log Analytics Workspace Name"
+}

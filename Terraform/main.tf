@@ -83,12 +83,23 @@ resource "random_string" "unique" {
   special = false
 }
 
+# Create Log Analytics workspace for Application Insights
+resource "azurerm_log_analytics_workspace" "main" {
+  name                = "${var.app_name_prefix}-${var.environment}-logs"
+  location            = azurerm_resource_group.appgrp.location
+  resource_group_name = azurerm_resource_group.appgrp.name
+  sku                 = "PerGB2018"
+  retention_in_days   = 30
+  tags                = var.tags
+}
+
 # Create Application Insights for monitoring
 resource "azurerm_application_insights" "weatherforecast_insights" {
   name                = "${var.app_name_prefix}-${var.environment}-appinsights"
   location            = azurerm_resource_group.appgrp.location
   resource_group_name = azurerm_resource_group.appgrp.name
   application_type    = "web"
+  workspace_id        = azurerm_log_analytics_workspace.main.id
   tags                = var.tags
 }
 
